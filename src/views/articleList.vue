@@ -7,8 +7,8 @@
         </el-form-item>
         <el-form-item label="文章类别">
           <el-select  placeholder="文章类别">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
+            <el-option label="区域一" ></el-option>
+            <el-option label="区域二" ></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -76,9 +76,5 @@
   }
 </script>
 <style>
-.app-container {
-  padding: 20px;
-  height: 100%;
-  width: 100%;
-}
+
 </style>

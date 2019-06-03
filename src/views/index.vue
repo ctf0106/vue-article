@@ -1,6 +1,7 @@
 <template>
     <el-container>
-       <!-- <el-header>Header</el-header>-->
+       <el-header style="background-color:#545c64;" ></el-header>
+       <el-container>
         <el-row  style="background-color:#545c64;height:100vh;width:230px">
           <el-aside width="231px" background-color="#545c64">
               <el-menu router  background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
@@ -11,7 +12,7 @@
         <el-main>
           <router-view></router-view>
         </el-main>
-           
+    </el-container>       
     </el-container>
 
 
