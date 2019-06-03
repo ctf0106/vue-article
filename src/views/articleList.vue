@@ -1,27 +1,45 @@
 <template>
-  <el-table :data="tableData" style="width:60%">
-    <el-table-column label="序号">
-      <template slot-scope="scope">
-        <i class="el-icon-time"></i>
-        <span style="margin-left: 10px">{{ scope.row.date }}</span>
-      </template>
-    </el-table-column>
-    <el-table-column label="编号"></el-table-column>
-    <el-table-column label="标题"></el-table-column>
-    <el-table-column label="文章类别"></el-table-column>
-    <el-table-column label="发布日期"></el-table-column>
-    <el-table-column label="操作">
-      <template slot-scope="scope">
-        <el-button
-          size="mini"
-          @click="handleEdit(scope.$index,scope.row)">编辑</el-button>
-        <el-button
-          size="mini"
-          type="danger"
-          @click="handleDelete(scope.$index,scope.row)">删除</el-button>
-      </template>
-    </el-table-column>
-  </el-table>
+  <div class="app-container">
+    <div class="filter-container">
+      <el-form :inline="true"  class="demo-form-inline">
+        <el-form-item label="文章标题">
+          <el-input  placeholder="文章标题"></el-input>
+        </el-form-item>
+        <el-form-item label="文章类别">
+          <el-select  placeholder="文章类别">
+            <el-option label="区域一" value="shanghai"></el-option>
+            <el-option label="区域二" value="beijing"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary">查询</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+    <el-table :data="tableData" >
+      <el-table-column label="序号">
+        <template slot-scope="scope">
+          <i class="el-icon-time"></i>
+          <span style="margin-left: 10px">{{ scope.row.date }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="编号"></el-table-column>
+      <el-table-column label="标题"></el-table-column>
+      <el-table-column label="文章类别"></el-table-column>
+      <el-table-column label="发布日期"></el-table-column>
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            @click="handleEdit(scope.$index,scope.row)">编辑</el-button>
+          <el-button
+            size="mini"
+            type="danger"
+            @click="handleDelete(scope.$index,scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+</div>
 </template>
 
 <script>
@@ -57,3 +75,10 @@
     }
   }
 </script>
+<style>
+.app-container {
+  padding: 20px;
+  height: 100%;
+  width: 100%;
+}
+</style>
