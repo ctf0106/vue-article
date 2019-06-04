@@ -43,6 +43,7 @@
 </template>
 
 <script>
+	import { getArticleList } from '../api/api'
   export default {
     data() {
       return {
