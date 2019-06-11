@@ -42,7 +42,7 @@
 </template>
 
 <script>
-	// import { getArticleList } from '../api/api'
+	import { getArticleList } from '../api/api'
   export default {
     data() {
       return {
@@ -66,12 +66,9 @@
       }
     },
     methods: {
-      handleEdit() {
-        
-      },
-      handleDelete() {
-        
-      }
+     async getArticleList(){
+       await getArticleList();
+     }
     }
   }
 </script>
