@@ -1,13 +1,14 @@
 import axios from 'axios';
 import queryString from 'query-string';
-var baseUrl = '/ws';
+var baseUrl = '/';
 if (process.env.NODE_ENV === 'production') {
-  baseUrl = '';
+  baseUrl = 'http://localhost';
 }
+
 // Add a response interceptor
 axios.interceptors.response.use(function (response) {
     let data = response.data;
-    if(!!!data){
+    if(!data){
       window.top.location.href='/';
       return '';
     }
@@ -127,5 +128,5 @@ export const getImgCodeApi = (url,callback) => {
 			//接收转换后的Base64图片
 			callback(data)
 		})
-		.catch(function(err) {});
+		.catch(function() {});
 };

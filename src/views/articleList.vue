@@ -7,8 +7,7 @@
         </el-form-item>
         <el-form-item label="文章类别">
           <el-select  placeholder="文章类别">
-            <el-option label="区域一" ></el-option>
-            <el-option label="区域二" ></el-option>
+            
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -43,7 +42,7 @@
 </template>
 
 <script>
-	import { getArticleList } from '../api/api'
+	// import { getArticleList } from '../api/api'
   export default {
     data() {
       return {
