@@ -12,16 +12,10 @@
       </el-form>
     </div>
     <el-table :data="articleList.list" >
-      <el-table-column label="序号">
-        <template slot-scope="scope">
-          <i class="el-icon-time"></i>
-          <span style="margin-left: 10px">{{ scope.row.date }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="编号"></el-table-column>
-      <el-table-column label="标题"></el-table-column>
-      <el-table-column label="文章类别"></el-table-column>
-      <el-table-column label="发布日期"></el-table-column>
+      <el-table-column label="序号" type="index"></el-table-column>
+      <el-table-column label="标题" property="title"></el-table-column>
+      <el-table-column label="作者"  property="writer"></el-table-column>
+      <el-table-column label="发布日期"  :formatter="dateFormat" property="gmtCreate"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button
@@ -54,23 +48,6 @@
   export default {
     data() {
       return {
-        tableData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }],
         pageNum:1,
         pageSize:10,
         articleList:'',
@@ -91,7 +68,23 @@
       },
       handleCurrentChange(val) {
         console.log(val)
-      }
+      },
+      dateFormat:function(row,column){
+       var t=new Date(row.gmtCreate);//row 表示一行数据, updateTime 表示要格式化的字段名称
+    　　var year=t.getFullYear(),
+       　　 month=t.getMonth()+1,
+       　　 day=t.getDate(),
+      　　  hour=t.getHours(),
+      　　  min=t.getMinutes(),
+      　　  sec=t.getSeconds();
+  　　  var newTime=year+'-'+
+      　　  (month<10?'0'+month:month)+'-'+
+     　　   (day<10?'0'+day:day)+' '+
+      　　  (hour<10?'0'+hour:hour)+':'+
+      　　  (min<10?'0'+min:min)+':'+
+      　　  (sec<10?'0'+sec:sec);
+  　　  return newTime;
+      },
     },
     mounted(){
       this.getArticleList()
