@@ -5,17 +5,13 @@
         <el-form-item label="文章标题">
           <el-input  placeholder="文章标题"></el-input>
         </el-form-item>
-        <el-form-item label="文章类别">
-          <el-select  placeholder="文章类别">
-            
-          </el-select>
-        </el-form-item>
+       
         <el-form-item>
           <el-button type="primary">查询</el-button>
         </el-form-item>
       </el-form>
     </div>
-    <el-table :data="tableData" >
+    <el-table :data="articleList.list" >
       <el-table-column label="序号">
         <template slot-scope="scope">
           <i class="el-icon-time"></i>
@@ -38,6 +34,18 @@
         </template>
       </el-table-column>
     </el-table>
+    
+    <div class="block">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        
+        :page-sizes="[10, 20]"
+        :page-size="10"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="20">
+      </el-pagination>
+  </div>
 </div>
 </template>
 
@@ -62,13 +70,31 @@
           date: '2016-05-03',
           name: '王小虎',
           address: '上海市普陀区金沙江路 1516 弄'
-        }]
+        }],
+        pageNum:1,
+        pageSize:10,
+        articleList:'',
       }
     },
     methods: {
      async getArticleList(){
-       await getArticleList();
-     }
+       let data={
+         pageNum:this.pageNum,
+         pageSize:this.pageSize,
+       }
+      let articleList= await getArticleList(data);
+      this.articleList=articleList.data;
+      console.log(articleList);
+     },
+      handleSizeChange(val) {
+        console.log(val)
+      },
+      handleCurrentChange(val) {
+        console.log(val)
+      }
+    },
+    mounted(){
+      this.getArticleList()
     }
   }
 </script>

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import queryString from 'query-string';
-var baseUrl = '/';
+var baseUrl = '/api';
 if (process.env.NODE_ENV === 'production') {
   baseUrl = 'http://localhost';
 }
@@ -8,10 +8,6 @@ if (process.env.NODE_ENV === 'production') {
 // Add a response interceptor
 axios.interceptors.response.use(function (response) {
     let data = response.data;
-    if(!data){
-      window.top.location.href='/';
-      return '';
-    }
     let errorCode = data.errorCode;
     if(!!errorCode&&errorCode=='3000'){
       window.top.location.href='/';

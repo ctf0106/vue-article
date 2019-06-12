@@ -4,6 +4,7 @@ module.exports = {
      * process.env.NODE_ENV==='development' (开发环境)
      * baseUrl: process.env.NODE_ENV==='production'?"https://cdn.didabisai.com/front/":'front/',
      */
+    lintOnSave: false,
     // 基本路径
     baseUrl: '/',
     // 输出文件目录
@@ -53,8 +54,17 @@ module.exports = {
         port: 80,
         https: false,
         hotOnly: false,
-        proxy: null, // 设置代理
-        before: app => {}
+        before: app => {},
+        proxy: {
+            // proxy all requests starting with /api to jsonplaceholder
+            '/api': {
+              target: 'http://192.168.199.226:8080',   //代理接口
+              changeOrigin: true,
+              pathRewrite: {
+                '^/api': '/'    //代理的路径
+              }
+            }
+          }
     },
     // 第三方插件配置
     pluginOptions: {
