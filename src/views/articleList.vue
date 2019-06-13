@@ -3,29 +3,30 @@
     <div class="filter-container">
       <el-form :inline="true"  class="demo-form-inline">
         <el-form-item label="文章标题">
-          <el-input  placeholder="文章标题"></el-input>
+          <el-input  placeholder="文章标题" v-model="title"></el-input>
         </el-form-item>
-       
         <el-form-item>
-          <el-button type="primary">查询</el-button>
+          <el-button type="primary"  @click="getInitList">查询</el-button>
         </el-form-item>
       </el-form>
     </div>
     <el-table :data="articleList.list" >
-      <el-table-column label="序号" type="index"></el-table-column>
+      <el-table-column label="序号" width="100" type="index"></el-table-column>
+      <el-table-column label="类别" property="categoryName"></el-table-column>
       <el-table-column label="标题" property="title"></el-table-column>
       <el-table-column label="关键词" property="keywords"></el-table-column>
       <el-table-column label="作者"  property="writer"></el-table-column>
+      <el-table-column label="点击数"  property="onclick"></el-table-column>
       <el-table-column label="发布日期"  :formatter="dateFormat" property="gmtCreate"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="handleEdit(scope.$index,scope.row)">编辑</el-button>
+            @click="handleEdit(scope.$index,articleList.list)">编辑</el-button>
           <el-button
             size="mini"
             type="danger"
-            @click="handleDelete(scope.$index,scope.row)">删除</el-button>
+            @click="handleDelete(scope)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -52,13 +53,25 @@
         pageNum:1,
         pageSize:10,
         articleList:'',
+        title:"",
       }
     },
     methods: {
+       getInitList(){
+        this.pageNum=1;
+        this.getArticleList();
+      },
+      handleEdit(val,data){
+        console.log(val);
+      },
+      handleDelete(val){
+        console.log(val);
+      },
      async getArticleList(){
        let data={
          pageNum:this.pageNum,
          pageSize:this.pageSize,
+         title:this.title,
        }
       let articleList= await getArticleList(data);
       this.articleList=articleList.data;
