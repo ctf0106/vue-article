@@ -11,12 +11,12 @@
       </el-form>
     </div>
     <el-table :data="articleList.list" >
-      <el-table-column label="序号" width="100" type="index"></el-table-column>
-      <el-table-column label="类别" property="categoryName"></el-table-column>
+      <el-table-column label="序号" width="50" type="index"></el-table-column>
+      <el-table-column label="类别" width="100" property="categoryName"></el-table-column>
       <el-table-column label="标题" property="title"></el-table-column>
       <el-table-column label="关键词" property="keywords"></el-table-column>
-      <el-table-column label="作者"  property="writer"></el-table-column>
-      <el-table-column label="点击数"  property="onclick"></el-table-column>
+      <el-table-column label="作者"  width="100" property="writer"></el-table-column>
+      <el-table-column label="点击数"  width="100" property="onclick"></el-table-column>
       <el-table-column label="发布日期"  :formatter="dateFormat" property="gmtCreate"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
