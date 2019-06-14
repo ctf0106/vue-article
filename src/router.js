@@ -18,19 +18,19 @@ export default new Router({
         children:[{
             path: '/articleList',
             name: 'articleList',
-            component: () =>import('./views/articleList.vue'),
+            component: () =>import('./views/article/articleList.vue'),
         },
         {
             path: '/writeArticle',
             name: 'writeArticle',
             component: () =>
-                import('./views/writeArticle.vue')
+                import('./views/article/writeArticle.vue')
         },
         {
             path: '/categoryList',
             name: 'categoryList',
             component: () =>
-                import('./views/categoryList.vue')
+                import('./views/category/categoryList.vue')
         },{
             path:'/modifyPerson',
             name:'modifyPerson',

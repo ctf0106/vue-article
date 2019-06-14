@@ -46,12 +46,12 @@
 </template>
 
 <script>
-	import { getArticleList } from '../api/api'
+	import { getArticleList } from '@/api/api'
   export default {
     data() {
       return {
         pageNum:1,
-        pageSize:10,
+        pageSize:15,
         articleList:'',
         title:"",
       }

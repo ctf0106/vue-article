@@ -1,21 +1,29 @@
 <template>
     <el-container>
-       <el-header style="background-color:#545c64;" ></el-header>
-       <el-container>
-        <el-row  style="background-color:#545c64;height:100vh;width:230px">
-          <el-aside width="231px" background-color="#545c64">
-              <el-menu router  background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+        <el-row  style="background-color:#545c64;height:100vh;width:201px">
+          <el-aside width="200px" style="overflow:hidden">
+              <div style="color:#FFFFFF;height:56px;text-align:center;line-height:56px;">内容管理系统</div>
+              <el-menu router  background-color="#545c64" style="border-right:0px;width:201px; " text-color="#fff" active-text-color="#ffd04b">
               <nav-menu :navMenus="menuData"></nav-menu>
               </el-menu>
           </el-aside>
         </el-row>
-        <el-main>
-          <router-view></router-view>
-        </el-main>
-    </el-container>       
+        <el-container>
+            <el-header style="text-align:right;font-size:12px;height:50px;background:#E8E7E3;">
+              <el-dropdown>
+                <i class="el-icon-setting" style="margin-right:15px"></i>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item>个人中心</el-dropdown-item>
+                  <el-dropdown-item>退出登陆</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+              <span style="line-height:50px;">曹先生</span>
+            </el-header>
+            <el-main>
+              <router-view></router-view>
+            </el-main>
+        </el-container>
     </el-container>
-
-
 </template>
 
 <script>

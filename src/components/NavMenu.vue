@@ -11,7 +11,7 @@
       </el-menu-item>
 
       <!-- 此菜单下还有子菜单 -->
-      <el-submenu v-if="navMenu.childs&&navMenu.entity" :key="navMenu.entity.id" :data="navMenu" :index="navMenu.entity.name">
+      <el-submenu  v-if="navMenu.childs&&navMenu.entity" :key="navMenu.entity.id" :data="navMenu" :index="navMenu.entity.name">
           <template slot="title">
             <i :class="navMenu.entity.icon"></i>
             <span> {{navMenu.entity.alias}}</span>
