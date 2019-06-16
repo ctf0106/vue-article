@@ -3,7 +3,39 @@
     <div class="filter-container">
       <el-form :inline="true"  class="demo-form-inline">
         <el-form-item label="文章标题">
-          <el-input  placeholder="文章标题" v-model="title"></el-input>
+          <el-input  placeholder="文章标题" clearable v-model="searchInfo.title"></el-input>
+        </el-form-item>
+        <el-form-item label="文章类别">
+           <el-select clearable v-model="searchInfo.categoryId" placeholder="请选择">
+            <el-option
+              v-for="category in categoryAllList"
+              :key="category.categoryId"
+              :value="category.categoryId"
+              :label="category.categoryName"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="发布日期">
+          <el-date-picker
+            v-model="searchInfo.startDate"
+            align="right"
+            type="date"
+            placeholder="开始时间"
+            value-format="yyyy-MM-dd"
+            clearable
+            :picker-options="pickerOptions">
+          </el-date-picker>
+          &nbsp;-&nbsp;
+          <el-date-picker
+            v-model="searchInfo.endDate"
+            align="right"
+            type="date"
+            placeholder="结束时间"
+            value-format="yyyy-MM-dd"
+            clearable
+            :picker-options="pickerOptions">
+          </el-date-picker>
         </el-form-item>
         <el-form-item>
           <el-button type="primary"  @click="getInitList">查询</el-button>
@@ -11,77 +43,152 @@
       </el-form>
     </div>
     <el-table :data="articleList.list" >
-      <el-table-column label="序号" width="50" type="index"></el-table-column>
-      <el-table-column label="类别" width="100" property="categoryName"></el-table-column>
-      <el-table-column label="标题" property="title"></el-table-column>
+      <el-table-column label="序号" width="80" type="index" sortable></el-table-column>
+      <el-table-column label="类别" width="100" property="categoryName" sortable></el-table-column>
+      <el-table-column label="标题" property="title" ></el-table-column>
       <el-table-column label="关键词" property="keywords"></el-table-column>
       <el-table-column label="作者"  width="100" property="writer"></el-table-column>
-      <el-table-column label="点击数"  width="100" property="onclick"></el-table-column>
+      <el-table-column label="点击数"  width="100" property="onclick" sortable></el-table-column>
       <el-table-column label="发布日期"  :formatter="dateFormat" property="gmtCreate"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="handleEdit(scope.$index,articleList.list)">编辑</el-button>
+            @click="handleEdit(scope.row.articleId)">编辑</el-button>
           <el-button
             size="mini"
             type="danger"
-            @click="handleDelete(scope)">删除</el-button>
+            @click="handleDelete(scope.row.articleId)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     
-    <div class="block">
+    <div class="footer">
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        
         :page-sizes="[10, 20]"
         :page-size="10"
         layout="total, sizes, prev, pager, next, jumper"
-        :total="20">
+        :total="articleList.total">
       </el-pagination>
   </div>
 </div>
 </template>
 
 <script>
-	import { getArticleList } from '@/api/api'
+	import { getArticleList,deleteArticleById,getCategoryAllList} from '@/api/api'
   export default {
     data() {
       return {
-        pageNum:1,
-        pageSize:15,
-        articleList:'',
-        title:"",
+        articleList:[],
+        categoryAllList:[],//类目列表
+        pickerOptions: {
+          disabledDate(time) {
+            return time.getTime() > Date.now();
+          },
+          shortcuts: [{
+            text: '今天',
+            onClick(picker) {
+              picker.$emit('pick', new Date());
+            }
+          }, {
+            text: '昨天',
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              picker.$emit('pick', date);
+            }
+          }, {
+            text: '一周前',
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit('pick', date);
+            }
+          }]
+        },
+        searchInfo:{
+          title:null,//搜索
+          categoryId:null,//类目id  搜索
+          startDate:null,//开始时间
+          endDate:null,//结束时间
+          pageNum:1,//开始页
+          pageSize:10,//每页数量
+        }
       }
     },
     methods: {
        getInitList(){
-        this.pageNum=1;
+        this.searchInfo.pageNum=1;
         this.getArticleList();
       },
-      handleEdit(val,data){
-        console.log(val);
+      handleEdit(val){
+        this.$confirm('是否要进行修改操作?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+         this.$router.push({name:"writeArticle",query:{articleId:val}})
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消编辑'
+          });          
+        });
       },
       handleDelete(val){
-        console.log(val);
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+            this.deleteArticleById(val)
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
       },
+      //查询文章列表
      async getArticleList(){
+       let data=this.searchInfo;
+      let result= await getArticleList(data);
+      if(result.data!=null){
+        this.articleList=result.data;
+      }
+     },
+     //删除文章
+     async deleteArticleById(articleId){
+       console.log(articleId)
        let data={
-         pageNum:this.pageNum,
-         pageSize:this.pageSize,
-         title:this.title,
+         articleId:articleId,
        }
-      let articleList= await getArticleList(data);
-      this.articleList=articleList.data;
-      console.log(articleList);
+      let result= await deleteArticleById(data);
+      if(result.data!=null){
+        let code=result.data.code;
+        if(code==200){
+          this.$message({
+            type: 'success',
+            message: '删除成功'
+          });  
+        }else{
+          this.$message({
+            type: 'error',
+            message: '删除失败'
+          });  
+        }
+      }
+      this.getInitList();
      },
       handleSizeChange(val) {
-        console.log(val)
+        this.searchInfo.pageSize=val;
+        this.getArticleList();
       },
       handleCurrentChange(val) {
-        console.log(val)
+        this.searchInfo.pageNum=val;
+        this.getArticleList();
       },
       dateFormat:function(row,column){
        var t=new Date(row.gmtCreate);//row 表示一行数据, updateTime 表示要格式化的字段名称
@@ -99,12 +206,25 @@
       　　  (sec<10?'0'+sec:sec);
   　　  return newTime;
       },
+      //查询类目列表
+     async getCategoryAllList(){
+       let data={
+         categoryName:this.categoryName,
+       }
+      let result= await getCategoryAllList(data);
+      if(result.data!=null){
+        this.categoryAllList=result.data.data;
+      }
+     },
     },
     mounted(){
-      this.getArticleList()
+      this.getArticleList();
+      this.getCategoryAllList();
     }
   }
 </script>
 <style>
-
+.footer{
+  margin-top: 20px;
+}
 </style>

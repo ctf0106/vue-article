@@ -1,10 +1,10 @@
 <template>
-    <el-container>
-        <el-row  style="background-color:#545c64;height:100vh;width:201px">
-          <el-aside width="200px" style="overflow:hidden">
+    <el-container direction="horizontal" style="height:100%;min-height:100vh">
+        <el-row  style="background-color:#545c64;">
+          <el-aside width="200px">
               <div style="color:#FFFFFF;height:56px;text-align:center;line-height:56px;">内容管理系统</div>
-              <el-menu router  background-color="#545c64" style="border-right:0px;width:201px; " text-color="#fff" active-text-color="#ffd04b">
-              <nav-menu :navMenus="menuData"></nav-menu>
+              <el-menu router  background-color="#545c64" style="border-right:0px;" text-color="#fff" active-text-color="#ffd04b">
+                <nav-menu :navMenus="menuData"></nav-menu>
               </el-menu>
           </el-aside>
         </el-row>

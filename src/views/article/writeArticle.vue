@@ -1,24 +1,87 @@
 <template>
-    <div>
-        <!-- 图片上传组件辅助-->
-      <el-upload
-        class="avatar-uploader"
-        :action="serverUrl"
-        name="img"
-        :headers="header"
-        :show-file-list="false"
-        :on-success="uploadSuccess"
-        :on-error="uploadError"
-        :before-upload="beforeUpload">
-      </el-upload>
-      <quill-editor 
-        class="editor"
-        v-model="content"
-        ref="myQuillEditor" 
-        :options="editorOption" 
-        @blur="onEditorBlur($event)" @focus="onEditorFocus($event)"
-        @change="onEditorChange($event)">
-        </quill-editor>
+    <div class="container">
+      <el-form ref="form" :model="articleDetail" label-width="80px" show-word-limit maxlength="20">
+        <el-form-item label="文章标题" >
+          <el-input v-model="articleDetail.title"  style="width:350px;"></el-input>
+        </el-form-item>
+        <el-form-item label="文章类别">
+          <el-select v-model="articleDetail.categoryName"  placeholder="请选择活动区域">
+             <el-option
+              v-for="category in categoryAllList"
+              :key="category.categoryId"
+              :value="category.categoryId"
+              :label="category.categoryName"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="关键词" >
+          <el-input v-model="articleDetail.keywords"  style="width:350px;"></el-input>
+        </el-form-item>
+        <el-form-item label="是否推荐">
+          <el-switch 
+          :active-value=1
+          :inactive-value=0
+          v-model="articleDetail.recommend"></el-switch>
+        </el-form-item>
+        <el-form-item label="是否发布">
+          <el-switch 
+          :active-value=1
+          :inactive-value=0
+          v-model="articleDetail.publish"></el-switch>
+        </el-form-item>
+        <el-form-item label="是否置顶 ">
+          <el-switch 
+          :active-value=1
+          :inactive-value=0
+          v-model="articleDetail.top"></el-switch>
+        </el-form-item>
+        <!-- <el-form-item label="文章标签">
+          <el-checkbox-group v-model="form.type">
+            <el-checkbox label="java" name="type"></el-checkbox>
+            <el-checkbox label="php" name="type"></el-checkbox>
+            <el-checkbox label="linux" name="type"></el-checkbox>
+            <el-checkbox label="前端" name="type"></el-checkbox>
+          </el-checkbox-group>
+        </el-form-item> -->
+        <el-form-item label="文章头图" style="width:500px;">
+          <el-upload
+            :action="uploadAction"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :file-list="fileList"
+            :on-success="uploadTitlePicSuccess"
+            list-type="picture">
+          <el-button size="small" type="primary">点击上传</el-button>
+          <div slot="tip" class="el-upload__tip">请上传图片</div>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="文章内容">
+          <quill-editor 
+          class="editor"
+          v-model="articleDetail.content"
+          ref="myQuillEditor" 
+          :options="editorOption" 
+          @blur="onEditorBlur($event)" @focus="onEditorFocus($event)"
+          @change="onEditorChange($event)">
+          </quill-editor>
+          <!-- 图片上传组件辅助-->
+          <el-upload
+            class="avatar-uploader"
+            :action="uploadAction"
+            name="img"
+            :headers="header"
+            :show-file-list="false"
+            :on-success="uploadSuccess"
+            :on-error="uploadError"
+            :before-upload="beforeUpload">
+          </el-upload>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit">立即创建</el-button>
+          <el-button>取消</el-button>
+        </el-form-item>
+      </el-form>
     </div>
 </template>
 <script>
@@ -44,7 +107,7 @@ import { quillEditor } from "vue-quill-editor";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
-
+	import {getArticleDetailById,getCategoryAllList,saveOrUpdateArticle} from '@/api/api'
 export default {
   props: {
     /*编辑器的内容*/
@@ -96,9 +159,26 @@ export default {
       },
       serverUrl: "/v1/blog/imgUpload", // 这里写你要上传的图片服务器地址
       header: {
-        // token: sessionStorage.token
-      } // 有的图片服务器要求请求头需要有token
+      }, // 有的图片服务器要求请求头需要有token
+      articleId:null,//如果是修改则articleId不为空
+      articleDetail:{
+        title:null,
+        articleId:null,
+        categoryName:null,
+        categoryId:null,
+        keywords:null,
+        description:null,
+        content:null,
+        recommend:null,
+        writer:null,
+        top:null,
+        titlePic:null,
+      },
+      fileList: [],
+      categoryAllList:[],
+      uploadAction:"/api/attach/upload",
     };
+    
   },
 
   methods: {
@@ -128,7 +208,7 @@ export default {
         // 获取光标所在位置
         let length = quill.getSelection().index;
         // 插入图片  res.url为服务器返回的图片地址
-        quill.insertEmbed(length, "image", res.url);
+        quill.insertEmbed(length, "image", res.data[0].url);
         // 调整光标到最后
         quill.setSelection(length + 1);
       } else {
@@ -142,12 +222,91 @@ export default {
       // loading动画消失
       this.quillUpdateImg = false;
       this.$message.error("图片插入失败");
+    },
+    
+    //获取文章详情
+    async getArticleDetailById(){
+       let data={
+         articleId:this.articleId,
+       }
+      let result= await getArticleDetailById(data);
+      if(result.data!=null){
+        let data=result.data.data;
+        this.articleDetail=data;
+        let articleTitlePic=data.titlePic;
+        this.fileList.push({name:"titlePic",url:articleTitlePic});
+      } 
+    },
+    handleRemove(file, fileList) {
+      this.articleDetail.titlePic="";
+    },
+    handlePreview(file) {
+      console.log(file);
+    },
+     //查询类目列表
+    async getCategoryAllList(){
+      let data={
+        categoryName:this.categoryName,
+      }
+      let result= await getCategoryAllList(data);
+      if(result.data!=null){
+        this.categoryAllList=result.data.data;
+      }
+    },
+    uploadTitlePicSuccess(res){
+      let data=res.data;
+      this.fileList=data;
+      if(data!=null && data.length>0){
+        let pic=data[0];
+        this.articleDetail.titlePic=pic.url;
+      }
+      console.log(this.articleDetail);
+    },
+    //获取文章详情
+    async getArticleDetailById(){
+       let data={
+         articleId:this.articleId,
+       }
+      let result= await getArticleDetailById(data);
+      if(result.data!=null){
+        let data=result.data.data;
+        this.articleDetail=data;
+        let articleTitlePic=data.titlePic;
+        this.fileList.push({name:"titlePic",url:articleTitlePic});
+      } 
+    },
+    async onSubmit() {
+      let data=this.articleDetail;
+      let result= await saveOrUpdateArticle(data);
+      if(result.data!=null){
+        if(result.data.code==200){
+          this.$router.push({name:"articleList"})
+        }
+      }
+    },
+  },
+  created(){
+    let articleId=this.$route.query.articleId
+    this.articleId=articleId;
+    if(articleId!=null && articleId!="" && articleId!=undefined){
+      this.getArticleDetailById();
     }
+  },
+  mounted(){
+    this.getCategoryAllList();
   }
 };
 </script> 
 
 <style>
+.container{
+  padding: 24px;
+  
+}
+.el-form{
+  width: 80%;
+}
+
 .editor {
   line-height: normal !important;
   height: 400px;
@@ -225,5 +384,8 @@ export default {
 .ql-snow .ql-picker.ql-font .ql-picker-label[data-value=monospace]::before,
 .ql-snow .ql-picker.ql-font .ql-picker-item[data-value=monospace]::before {
   content: '等宽字体';
+}
+.line{
+  text-align: center;
 }
 </style>

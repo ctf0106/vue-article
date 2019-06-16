@@ -3,14 +3,46 @@
     <div class="filter-container">
       <el-form :inline="true"  class="demo-form-inline">
         <el-form-item label="类别名称">
-          <el-input  placeholder="类别名称" v-model="categoryName"></el-input>
+          <el-input  placeholder="类别名称" clearable v-model="searchInfo.categoryName"></el-input>
+        </el-form-item>
+        <el-form-item label="是否最终列">
+           <el-select clearable v-model="searchInfo.last" placeholder="请选择">
+            <el-option
+              v-for="item in lastList"
+              :key="item.index"
+              :value="item.index"
+              :label="item.lastName"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="发布日期">
+          <el-date-picker
+            v-model="searchInfo.startDate"
+            align="right"
+            type="date"
+            placeholder="开始时间"
+            value-format="yyyy-MM-dd"
+            clearable
+            :picker-options="pickerOptions">
+          </el-date-picker>
+          &nbsp;-&nbsp;
+          <el-date-picker
+            v-model="searchInfo.endDate"
+            align="right"
+            type="date"
+            placeholder="结束时间"
+            value-format="yyyy-MM-dd"
+            clearable
+            :picker-options="pickerOptions">
+          </el-date-picker>
         </el-form-item>
         <el-form-item>
           <el-button type="primary"  @click="getInitList">查询</el-button>
         </el-form-item>
       </el-form>
     </div>
-    <el-table :data="categoryList" >
+    <el-table :data="categoryPageInfo.list" >
       <el-table-column label="序号" width="100" type="index"></el-table-column>
       <el-table-column label="主键" property="categoryId"></el-table-column>
       <el-table-column label="类别" property="categoryName"></el-table-column>
@@ -22,43 +54,109 @@
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="handleEdit(scope.$index)">编辑</el-button>
+            @click="handleEdit(scope.row.categoryId)">编辑</el-button>
           <el-button
             size="mini"
             type="danger"
-            @click="handleDelete(scope)">删除</el-button>
+            @click="handleDelete(scope.row.categoryId)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
+    
+    <div class="footer">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :page-sizes="[10, 20]"
+        :page-size="10"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="categoryPageInfo.total">
+      </el-pagination>
+  </div>
 </div>
 </template>
 
 <script>
-	import { getCategoryList } from '@/api/api'
+	import {getCategoryList} from '@/api/api'
   export default {
     data() {
       return {
-        categoryName:'',
-        categoryList:[],
+        categoryPageInfo:null,//类目列表
+        lastList:[
+          {
+            index:0,
+            lastName:'否'
+          },{
+            index:1,
+            lastName:'是'
+          }
+        ],
+        pickerOptions: {
+          disabledDate(time) {
+            return time.getTime() > Date.now();
+          },
+          shortcuts: [{
+            text: '今天',
+            onClick(picker) {
+              picker.$emit('pick', new Date());
+            }
+          }, {
+            text: '昨天',
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24);
+              picker.$emit('pick', date);
+            }
+          }, {
+            text: '一周前',
+            onClick(picker) {
+              const date = new Date();
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+              picker.$emit('pick', date);
+            }
+          }]
+        },
+        searchInfo:{
+          categoryName:null,//名称  搜索
+          startDate:null,//开始时间
+          endDate:null,//结束时间
+          pageNum:1,//开始页
+          pageSize:10,//每页数量
+        },
       }
     },
     methods: {
-      getInitList(){
-        this.getCategoryList();
+       getInitList(){
+        this.searchInfo.pageNum=1;
+        this.getCategoryPageInfo();
       },
       handleEdit(val){
-        console.log(val);
+        
       },
       handleDelete(val){
-        console.log(val);
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
       },
-     async getCategoryList(){
-       let data={
-         categoryName:this.categoryName,
-       }
-      let categoryList= await getCategoryList(data);
-      this.categoryList=categoryList.data;
-     },
+      //选择每页大小
+      handleSizeChange(val) {
+        this.searchInfo.pageSize=val;
+        this.getInitList();
+      },
+      //当前页码
+      handleCurrentChange(val) {
+        this.searchInfo.pageNum=val;
+        this.getCategoryPageInfo();
+      },
       dateFormat:function(row,column){
        var t=new Date(row.gmtCreate);//row 表示一行数据, updateTime 表示要格式化的字段名称
     　　var year=t.getFullYear(),
@@ -75,12 +173,22 @@
       　　  (sec<10?'0'+sec:sec);
   　　  return newTime;
       },
+      //查询类目列表
+     async getCategoryPageInfo(){
+       let data=this.searchInfo;
+      let result= await getCategoryList(data);
+      if(result.data!=null){
+        this.categoryPageInfo=result.data;
+      }
+     },
     },
     mounted(){
-      this.getCategoryList()
+      this.getCategoryPageInfo();
     }
   }
 </script>
 <style>
-
+.footer{
+  margin-top: 20px;
+}
 </style>
