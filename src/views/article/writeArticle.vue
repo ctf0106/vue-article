@@ -5,7 +5,7 @@
           <el-input v-model="articleDetail.title"  style="width:350px;"></el-input>
         </el-form-item>
         <el-form-item label="文章类别">
-          <el-select v-model="articleDetail.categoryName"  placeholder="请选择活动区域">
+          <el-select v-model="articleDetail.categoryId"  placeholder="请选择活动区域" value-key="categoryId">
              <el-option
               v-for="category in categoryAllList"
               :key="category.categoryId"
@@ -234,7 +234,10 @@ export default {
         let data=result.data.data;
         this.articleDetail=data;
         let articleTitlePic=data.titlePic;
-        this.fileList.push({name:"titlePic",url:articleTitlePic});
+        if(articleTitlePic!=null && articleTitlePic!=""){
+          this.fileList.push({name:"titlePic",url:articleTitlePic});
+        }
+        
       } 
     },
     handleRemove(file, fileList) {
@@ -252,6 +255,7 @@ export default {
       if(result.data!=null){
         this.categoryAllList=result.data.data;
       }
+      console.log(this.categoryAllList);
     },
     uploadTitlePicSuccess(res){
       let data=res.data;
@@ -272,7 +276,10 @@ export default {
         let data=result.data.data;
         this.articleDetail=data;
         let articleTitlePic=data.titlePic;
-        this.fileList.push({name:"titlePic",url:articleTitlePic});
+        if(articleTitlePic!=null && articleTitlePic!=""){
+          this.fileList.push({name:"titlePic",url:articleTitlePic});
+        }
+        
       } 
     },
     async onSubmit() {

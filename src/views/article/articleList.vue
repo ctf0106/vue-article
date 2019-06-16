@@ -50,6 +50,7 @@
       <el-table-column label="作者"  width="100" property="writer"></el-table-column>
       <el-table-column label="点击数"  width="100" property="onclick" sortable></el-table-column>
       <el-table-column label="发布日期"  :formatter="dateFormat" property="gmtCreate"></el-table-column>
+      <el-table-column label="更新日期"  :formatter="dateFormat" property="gmtModify"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button
