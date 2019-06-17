@@ -10,7 +10,11 @@ export default new Router({
         path: '/',
         redirect: { name: 'index' }
     },
-    
+    {
+        path: '/login',
+        name: 'login',
+        component: () =>import('./views/login/login.vue'),
+    },
     {
         path: '/',
         name: 'index',
