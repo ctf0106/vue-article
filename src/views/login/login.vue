@@ -1,16 +1,16 @@
 <template>
-  <el-form :model="form" :rules="rules2" ref="ruleForm2" label-position="left" label-width="0px" class="login-container">
+  <el-form :model="form" :rules="rules" ref="form" label-position="left" label-width="0px" class="login-container">
     <h3 class="title">内容管理系统</h3>
     <el-form-item prop="account">
-      <el-input type="text" v-model="form.account" auto-complete="off" placeholder="账号"></el-input>
+      <el-input type="text" v-model="form.userName" auto-complete="off" placeholder="账号"></el-input>
     </el-form-item>
     <el-form-item prop="checkPass">
-      <el-input type="password" v-model="form.checkPass" auto-complete="off" placeholder="密码"></el-input>
+      <el-input type="password" v-model="form.password" auto-complete="off" placeholder="密码"></el-input>
     </el-form-item>
-    <el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox>
+    <el-checkbox v-model="rememberMe" checked class="remember">记住密码</el-checkbox>
     <el-form-item style="width:100%;">
-      <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit2" :loading="logining">登录</el-button>
-      <!-- <el-button @click.native.prevent="handleReset2">重置</el-button> -->
+      <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit" :loading="logining">登录</el-button>
+      <!-- <el-button @click.native.prevent="handleReset">重置</el-button> -->
     </el-form-item>
   </el-form>
 </template>
@@ -22,31 +22,35 @@
       return {
         logining: false,
         form: {
-          account: 'admin',
-          checkPass: '123456'
+          userName: 'admin',
+          password: '123456'
         },
-        rules2: {
-          account: [
+        rules: {
+          userName: [
             { required: true, message: '请输入账号', trigger: 'blur' },
           ],
-          checkPass: [
+          password: [
             { required: true, message: '请输入密码', trigger: 'blur' },
           ]
         },
-        checked: true
+        rememberMe: true
       };
     },
     methods: {
-      handleReset2() {
-        this.$refs.ruleForm2.resetFields();
+      handleReset() {
+        this.$refs.form.resetFields();
       },
-      handleSubmit2(ev) {
+      handleSubmit(ev) {
         var _this = this;
-        this.$refs.ruleForm2.validate((valid) => {
+        this.$refs.form.validate((valid) => {
           if (valid) {
             this.logining = true;
-            var loginParams = { username: this.ruleForm2.account, password: this.ruleForm2.checkPass };
-            login(loginParams).then(data => {
+            var params = { 
+              userName: this.form.userName,
+              password: this.form.password, 
+              rememberMe:this.rememberMe,
+            };
+            login(params).then(data => {
               this.logining = false;
               let { msg, code, user } = data;
               if (code !== 200) {
@@ -56,7 +60,7 @@
                 });
               } else {
                 sessionStorage.setItem('user', JSON.stringify(user));
-                this.$router.push({ path: '/table' });
+                this.$router.push({ path: '/' });
               }
             });
           } else {
