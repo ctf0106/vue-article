@@ -35,28 +35,28 @@ export default new Router({
             path:'/modifyPerson',
             name:'modifyPerson',
             component:()=>
-            import('./views/modifyPerson')
+            import('./views/person/modifyPerson')
         }
         ,{
             path:'/commentAuit',
             name:'commentAuit',
             component:()=>
-            import('./views/commentAuit')
+            import('./views/comment/commentAuit')
         },{
             path:'/commentManage',
             name:'commentManage',
             component:()=>
-            import('./views/commentManage')
+            import('./views/comment/commentManage')
         },{
             path:'/accountManage',
             name:'accountManage',
             component:()=>
-            import('./views/accountManage')
+            import('./views/website/accountManage')
         },{
             path:'/websiteManage',
             name:'websiteManage',
             component:()=>
-            import('./views/websiteManage')
+            import('./views/website/websiteManage')
         }
     ]
     }],

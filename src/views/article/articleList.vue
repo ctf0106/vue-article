@@ -45,7 +45,11 @@
     <el-table :data="articleList.list" >
       <el-table-column label="序号" width="80" type="index" sortable></el-table-column>
       <el-table-column label="类别" width="100" property="categoryName" sortable></el-table-column>
-      <el-table-column label="标题" property="title" ></el-table-column>
+      <el-table-column label="标题" >
+        <template slot-scope="scope">
+           <a :href="[scope.row.basePath+'/article/'+scope.row.articleId]" target="_blank">{{scope.row.title}}</a>
+        </template>
+      </el-table-column>
       <el-table-column label="关键词" property="keywords"></el-table-column>
       <el-table-column label="作者"  width="100" property="writer"></el-table-column>
       <el-table-column label="点击数"  width="100" property="onclick" sortable></el-table-column>
