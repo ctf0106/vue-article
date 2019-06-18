@@ -59,7 +59,8 @@
                   type: 'error'
                 });
               } else {
-                sessionStorage.setItem('user', JSON.stringify(user));
+                sessionStorage.setItem('user', data.data.data.user);
+                sessionStorage.setItem('token',  data.data.data.token);
                 this.$router.push({ path: '/' });
               }
             });

@@ -1,17 +1,34 @@
 import axios from 'axios';
 import queryString from 'query-string';
+import router from '../router'
 var baseUrl = '/api';
 if (process.env.NODE_ENV === 'production') {
   baseUrl = 'http://localhost';
 }
 
-// Add a response interceptor
+axios.interceptors.request.use(
+  function (config) {
+    let token=sessionStorage.getItem('token');
+    if (token=="undefined" || token=="" || token==null) {
+      router.replace({
+        path: '/login'
+        // query: {redirect: router.currentRoute.fullPath}
+      })
+    } else {
+      config.headers.Authorization = token
+    }
+    console.log(config)
+    return config;
+  }, function (error) {
+    return Promise.reject(error);
+})
 axios.interceptors.response.use(function (response) {
     let data = response.data;
-    let errorCode = data.errorCode;
-    if(!!errorCode&&errorCode=='3000'){
-      window.top.location.href='/';
-      return '';
+    let code = data.code;
+    if(!!code&&code=='403'){
+      router.replace({
+        path: '/login'
+      })
     }
     if(response.status=='401'){
       window.top.location.href='/';
@@ -108,21 +125,3 @@ export const exportExcel = (url, data, _callback) => {
 
 };
 
-
-export const getImgCodeApi = (url,callback) => {
-	axios.get(baseUrl + url, {
-			responseType: 'arraybuffer'
-		})
-		.then(function(response) {
-			//将从后台获取的图片流进行转换
-			return (
-				'data:image/png;base64,' +
-				btoa(new Uint8Array(response.data).reduce((data, byte) => data + String.fromCharCode(byte), ''))
-			);
-		})
-		.then(function(data) {
-			//接收转换后的Base64图片
-			callback(data)
-		})
-		.catch(function() {});
-};
