@@ -53,9 +53,9 @@
             login(params).then(data => {
               this.logining = false;
               let { msg, code, user } = data;
-              if (code !== 200) {
+              if (data.data.code !=200) {
                 this.$message({
-                  message: msg,
+                  message: data.data.msg,
                   type: 'error'
                 });
               } else {
