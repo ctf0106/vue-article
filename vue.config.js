@@ -6,9 +6,12 @@ module.exports = {
      */
     lintOnSave: false,
     // 基本路径
-    baseUrl: '/',
+    // publicpath: '/',
     // 输出文件目录
-    outputDir: 'dist',
+    outputDir: 'D://develop//workspace//Blog//src//main//webapp//dist',
+    assetsDir: 'static',
+    baseUrl: '/',
+    // assetsDir:'/dist/',
     // eslint-loader 是否在保存的时候检查
    // lintOnSave: true,
     // use the full build with in-browser compiler?
