@@ -8,9 +8,9 @@ module.exports = {
     // 基本路径
     // publicpath: '/',
     // 输出文件目录
-    outputDir: 'D://develop//workspace//Blog//src//main//webapp//dist',
+    outputDir: 'D://develop//workspace//Blog//src//main//webapp//login',
     assetsDir: 'static',
-    baseUrl: '/',
+    baseUrl: '/login/',
     // assetsDir:'/dist/',
     // eslint-loader 是否在保存的时候检查
    // lintOnSave: true,
