@@ -3,7 +3,7 @@ import queryString from 'query-string';
 import router from '../router'
 var baseUrl = '/api';
 if (process.env.NODE_ENV === 'production') {
-  baseUrl = 'http://localhost';
+  baseUrl = '';
 }
 
 axios.interceptors.request.use(
@@ -12,10 +12,7 @@ axios.interceptors.request.use(
     if (token=="undefined" || token=="" || token==null) {
       router.replace({
         name: 'login'
-        // query: {redirect: router.currentRoute.fullPath}
       })
-    } else {
-      config.headers.Authorization = token
     }
     console.log(config)
     return config;
@@ -24,15 +21,10 @@ axios.interceptors.request.use(
 })
 axios.interceptors.response.use(function (response) {
     let data = response.data;
-    let code = data.code;
-    if(!!code&&code=='403'){
+    if (data.code!="200") {
       router.replace({
         name: 'login'
       })
-    }
-    if(response.status=='401'){
-      window.top.location.href='/';
-      return '';
     }
     return response;
   }, function (err) {
