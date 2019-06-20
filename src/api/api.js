@@ -2,7 +2,7 @@ import { fetch } from "../service/services.js";
 
 
 //登陆接口
-export const login = data =>fetch("post", "", "/admin/login/login", data);
+export const login = data =>fetch("post", "", "/admin/login", data);
 
 //查询文章列表
 export const getArticleList = data =>fetch("post", "", "/admin/article/getArticleList", data);

@@ -11,7 +11,7 @@ axios.interceptors.request.use(
     let token=sessionStorage.getItem('token');
     if (token=="undefined" || token=="" || token==null) {
       router.replace({
-        path: '/login'
+        name: 'login'
         // query: {redirect: router.currentRoute.fullPath}
       })
     } else {
@@ -27,7 +27,7 @@ axios.interceptors.response.use(function (response) {
     let code = data.code;
     if(!!code&&code=='403'){
       router.replace({
-        path: '/login'
+        name: 'login'
       })
     }
     if(response.status=='401'){

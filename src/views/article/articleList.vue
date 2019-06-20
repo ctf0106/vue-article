@@ -47,7 +47,7 @@
       <el-table-column label="类别" width="100" property="categoryName" sortable></el-table-column>
       <el-table-column label="标题" >
         <template slot-scope="scope">
-           <a :href="[scope.row.basePath+'/article/'+scope.row.articleId]" target="_blank">{{scope.row.title}}</a>
+           <a :href="[scope.row.articleUrlPath]" target="_blank">{{scope.row.title}}</a>
         </template>
       </el-table-column>
       <el-table-column label="关键词" property="keywords"></el-table-column>

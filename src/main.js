@@ -16,14 +16,14 @@ router.beforeEach((to, from, next) => {
     }
     let token = sessionStorage.getItem('token');
     if (!token && to.path != '/login') {
-      next({ path: '/login' })
+      next({ name: 'login' })
     } else if(token && to.path != '/login' && to.path != '/404' && to.path != '/'){
         console.log(to.path);  
         next()
     } else {
       next()
     }
-  })
+})
 new Vue({
     router,
     render: h => h(App)
