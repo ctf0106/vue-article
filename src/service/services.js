@@ -12,16 +12,17 @@ axios.interceptors.request.use(
     if (token=="undefined" || token=="" || token==null) {
       router.replace({
         name: 'login'
+        // query: {redirect: router.currentRoute.fullPath}
       })
-    }
+    } 
     console.log(config)
     return config;
   }, function (error) {
     return Promise.reject(error);
 })
 axios.interceptors.response.use(function (response) {
-    let data = response.data;
-    if (data.code!="200") {
+    let data = response.data.data;
+    if (data.code !=200) {
       router.replace({
         name: 'login'
       })
