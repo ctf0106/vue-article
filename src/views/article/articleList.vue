@@ -160,8 +160,8 @@
      async getArticleList(){
        let data=this.searchInfo;
       let result= await getArticleList(data);
-      if(result.data!=null){
-        this.articleList=result.data;
+      if(result.data!=null && result.data.code=="200"){
+        this.articleList=result.data.data;
       }
      },
      //删除文章
@@ -219,6 +219,7 @@
       let result= await getCategoryAllList(data);
       if(result.data!=null){
         this.categoryAllList=result.data.data;
+        console.log(this.categoryAllList);
       }
      },
     },

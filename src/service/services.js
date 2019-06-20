@@ -22,7 +22,7 @@ axios.interceptors.request.use(
 })
 axios.interceptors.response.use(function (response) {
     let data = response.data.data;
-    if (data.code !=200) {
+    if (data.code =="403") {
       router.replace({
         name: 'login'
       })
