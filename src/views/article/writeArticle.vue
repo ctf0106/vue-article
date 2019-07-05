@@ -182,7 +182,7 @@ export default {
       },
       fileList: [],
       categoryAllList:[],
-      uploadAction:"/api/attach/upload",
+      uploadAction:"/attach/upload",
     };
     
   },

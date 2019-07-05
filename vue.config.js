@@ -8,7 +8,8 @@ module.exports = {
     // 基本路径
     // publicpath: '/',
     // 输出文件目录
-    outputDir: 'D://develop//workspace//Blog//src//main//webapp//manage',
+    // outputDir: 'D://develop//workspace//Blog//src//main//webapp//manage',
+    outputDir:'D://develop//Project//Blog//src//main//webapp//manage',
     assetsDir: 'static',
     baseUrl: '/manage/',
     // assetsDir:'/dist/',
