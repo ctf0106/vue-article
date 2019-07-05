@@ -18,6 +18,9 @@
         <el-form-item label="关键词" >
           <el-input v-model="articleDetail.keywords"  style="width:350px;"></el-input>
         </el-form-item>
+        <el-form-item label="描述" >
+          <el-input v-model="articleDetail.description"  style="width:350px;"></el-input>
+        </el-form-item>
         <el-form-item label="作者" >
           <el-input v-model="articleDetail.writer"  style="width:350px;"></el-input>
         </el-form-item>

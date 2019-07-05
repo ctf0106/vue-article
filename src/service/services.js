@@ -21,11 +21,10 @@ axios.interceptors.request.use(
     return Promise.reject(error);
 })
 axios.interceptors.response.use(function (response) {
-    let data = response.data.data;
-    if (data.code =="403") {
-      router.replace({
-        name: 'login'
-      })
+    if (response.data.code=="403") {
+      // router.replace({
+      //   name: 'login'
+      // })
     }
     return response;
   }, function (err) {
