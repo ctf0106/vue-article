@@ -11,7 +11,7 @@ module.exports = {
     // outputDir: 'D://develop//workspace//Blog//src//main//webapp//manage',
     outputDir:'D://develop//Project//Blog//src//main//webapp//manage',
     assetsDir: 'static',
-    baseUrl: '/manage/',
+    publicPath: '/manage',
     // assetsDir:'/dist/',
     // eslint-loader 是否在保存的时候检查
    // lintOnSave: true,

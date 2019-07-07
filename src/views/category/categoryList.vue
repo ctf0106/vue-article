@@ -178,7 +178,8 @@
        let data=this.searchInfo;
       let result= await getCategoryList(data);
       if(result.data!=null){
-        this.categoryPageInfo=result.data;
+        this.categoryPageInfo=result.data.data;
+        console.log(this.categoryPageInfo);
       }
      },
     },

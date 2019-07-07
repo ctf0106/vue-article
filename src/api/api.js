@@ -20,9 +20,9 @@ export const getCategoryAllList = data =>fetch("post", "", "/admin/category/getC
 //保存或修改文章
 export const saveOrUpdateArticle = data =>fetch("post", "", "/admin/article/saveOrUpdateArticle", data);
 
-//超链接查询
-export const getLinksListPageInfo = data =>fetch("post", "", "/admin/links/getLinksListPageInfo", data);
+//网站信息
+export const getOneSite = data =>fetch("get", "", "/admin/site/getOneSite", data);
 
-//删除超链接
-export const deleteLinksById = data =>fetch("post", "", "/admin/links/deleteLinksById", data);
+//保存或更新网站信息
+export const saveOrUpdateSite = data =>fetch("post", "", "/admin/site/saveOrUpdateSite", data);
 

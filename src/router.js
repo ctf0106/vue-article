@@ -4,7 +4,7 @@ import Router from 'vue-router';
 Vue.use(Router)
 
 export default new Router({
-    mode: 'history',
+    mode: 'hash',
     base: process.env.BASE_URL,
     routes: [{
         path: '/',
@@ -57,10 +57,10 @@ export default new Router({
             component:()=>
             import('./views/website/accountManage')
         },{
-            path:'/websiteManage',
-            name:'websiteManage',
+            path:'/siteManage',
+            name:'siteManage',
             component:()=>
-            import('./views/website/websiteManage')
+            import('./views/website/siteManage')
         }
     ]
     }],

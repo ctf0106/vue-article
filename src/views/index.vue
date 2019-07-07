@@ -149,7 +149,7 @@ export default {
             {
               entity: {
                 id:52,
-                name: "websiteManage",
+                name: "siteManage",
                 icon: "el-icon-phone-outline\r\n",
                 alias: "网站信息管理",
                 value: "/system/menu"
