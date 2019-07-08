@@ -43,8 +43,8 @@
       </el-form>
     </div>
     <el-table :data="categoryPageInfo.list" >
-      <el-table-column label="序号" width="100" type="index"></el-table-column>
-      <el-table-column label="主键" property="categoryId"></el-table-column>
+      <el-table-column label="序号"  width="50" type="index"></el-table-column>
+      <el-table-column label="主键" width="50" property="categoryId"></el-table-column>
       <el-table-column label="类别" property="categoryName"></el-table-column>
       <el-table-column label="创建时间" :formatter="dateFormat" property="gmtCreate"></el-table-column>
       <el-table-column label="修改时间" :formatter="dateFormat" property="gmtUpdate"></el-table-column>
