@@ -68,7 +68,10 @@ export default {
       let result= await saveOrUpdateSite(data);
       if(result.data!=null){
         if(result.data.code==200){
-        //   this.$router.push({name:"articleList"})
+           this.$message({
+            type: 'success',
+            message: '修改成功！'
+          }); 
         }
       }
     },

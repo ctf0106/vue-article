@@ -20,6 +20,11 @@ export const getCategoryAllList = data =>fetch("post", "", "/admin/category/getC
 //保存或修改文章
 export const saveOrUpdateArticle = data =>fetch("post", "", "/admin/article/saveOrUpdateArticle", data);
 
+//个人信息
+export const getOneUser = data =>fetch("get", "", "/admin/user/getOneUser", data);
+//保存或更新个人信息
+export const saveOrUpdateUser = data =>fetch("post", "", "/admin/user/saveOrUpdateUser", data);
+
 //网站信息
 export const getOneSite = data =>fetch("get", "", "/admin/site/getOneSite", data);
 
