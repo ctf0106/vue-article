@@ -42,13 +42,13 @@
         </el-form-item>
       </el-form>
     </div>
-    <el-table :data="categoryPageInfo.list" >
+    <el-table :data="categoryList" >
       <el-table-column label="序号"  width="50" type="index"></el-table-column>
       <el-table-column label="主键" width="50" property="categoryId"></el-table-column>
-      <el-table-column label="类别" property="categoryName"></el-table-column>
+      <el-table-column label="类别" width="100"  property="categoryName"></el-table-column>
       <el-table-column label="创建时间" :formatter="dateFormat" property="gmtCreate"></el-table-column>
       <el-table-column label="修改时间" :formatter="dateFormat" property="gmtUpdate"></el-table-column>
-      <el-table-column label="是否最终列表"  property="last"></el-table-column>
+      <el-table-column label="是否最终列表"  property="last" :formatter="lastFormatter"></el-table-column>
       <el-table-column label="路径地址"  property="categoryPath"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
@@ -81,9 +81,12 @@
   export default {
     data() {
       return {
-        categoryPageInfo:null,//类目列表
+        categoryPageInfo:{
+          total:0,
+        },//类目列表
+        categoryList:[],
         lastList:[
-          {
+          { 
             index:0,
             lastName:'否'
           },{
@@ -179,9 +182,17 @@
       let result= await getCategoryList(data);
       if(result.data!=null){
         this.categoryPageInfo=result.data.data;
+        this.categoryList=result.data.data.list;
         console.log(this.categoryPageInfo);
       }
      },
+     lastFormatter(row,column){
+      if(row.last==1){
+        return "是"
+      }else{
+        return "否"
+      }
+     }
     },
     mounted(){
       this.getCategoryPageInfo();
