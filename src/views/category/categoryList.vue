@@ -1,5 +1,31 @@
 <template>
   <div class="app-container">
+    <div style="float:left;width:250px;">
+      <el-tree
+        :data="data"
+        node-key="id"
+        default-expand-all
+        :expand-on-click-node="false">
+        <span class="custom-tree-node" slot-scope="{ node, data }">
+          <i class="el-icon-folder"></i>&nbsp;<span>{{ node.label }}</span>
+          <span>
+            <el-button
+              type="text"
+              size="mini"
+              @click="() => append(data)">
+              <i class="el-icon-circle-plus-outline"></i>
+            </el-button>
+            <el-button
+              type="text"
+              size="mini"
+              @click="() => remove(node, data)">
+              <i class="el-icon-remove-outline"></i>
+            </el-button>
+          </span>
+        </span>
+      </el-tree>
+    </div>
+  <div style="float:left">
     <div class="filter-container">
       <el-form :inline="true"  class="demo-form-inline">
         <el-form-item label="类别名称">
@@ -72,19 +98,40 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="categoryPageInfo.total">
       </el-pagination>
+    </div>
   </div>
 </div>
 </template>
 
 <script>
-	import {getCategoryList} from '@/api/api'
+	import {getCategoryList,getCategoryTree} from '@/api/api'
   export default {
     data() {
+      const data = [{
+        id: 1,
+        label: '一级 1',
+        children: [{
+          id: 4,
+          label: '二级 1-1',
+          children: [{
+            id: 9,
+            label: '三级 1-1-1'
+          }]
+        }]
+      }, {
+        id: 2,
+        label: '一级 2',
+        children: [{
+          id: 5,
+          label: '二级 2-1'
+        }]
+      }];
       return {
         categoryPageInfo:{
           total:0,
         },//类目列表
         categoryList:[],
+         data: JSON.parse(JSON.stringify(data)),
         lastList:[
           { 
             index:0,
@@ -192,10 +239,35 @@
       }else{
         return "否"
       }
-     }
+     },
+     //查询类目列表
+     async getCategoryTree(){
+       let data={
+       }
+      let result= await getCategoryTree(data);
+      if(result.data!=null){
+      this.data=result.data.data;
+      console.log(this.data);
+      }
+     },
+      append(data) {
+        const newChild = { id:null, label: '新增类别', children: [] };
+        if (!data.children) {
+          this.$set(data, 'children', []);
+        }
+        data.children.push(newChild);
+      },
+
+      remove(node, data) {
+        const parent = node.parent;
+        const children = parent.data.children || parent.data;
+        const index = children.findIndex(d => d.id === data.id);
+        children.splice(index, 1);
+      },
     },
     mounted(){
       this.getCategoryPageInfo();
+      this.getCategoryTree();
     }
   }
 </script>

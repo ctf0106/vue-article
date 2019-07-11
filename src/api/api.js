@@ -8,6 +8,10 @@ export const login = data =>fetch("post", "", "/admin/login/on", data);
 export const getArticleList = data =>fetch("post", "", "/admin/article/getArticleList", data);
 //查询类目列表
 export const getCategoryList = data =>fetch("post", "", "/admin/category/getCategoryList", data);
+
+//查询类目树
+export const getCategoryTree = data =>fetch("post", "", "/admin/category/getCategoryTree", data);
+
 //删除文章
 export const deleteArticleById=data=>fetch("post","","/admin/article/deleteArticleById",data);
 
