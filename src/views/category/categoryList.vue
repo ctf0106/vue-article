@@ -1,11 +1,14 @@
 <template>
   <div class="app-container">
-    <div style="float:left;width:250px;">
+    <div style="float:left;width:220px;">
       <el-tree
         :data="data"
         node-key="id"
         default-expand-all
-        :expand-on-click-node="false">
+        :expand-on-click-node="false"
+        @node-click="showCategoryDetail"
+        >
+        
         <span class="custom-tree-node" slot-scope="{ node, data }">
           <i class="el-icon-folder"></i>&nbsp;<span>{{ node.label }}</span>
           <span>
@@ -29,10 +32,10 @@
     <div class="filter-container">
       <el-form :inline="true"  class="demo-form-inline">
         <el-form-item label="类别名称">
-          <el-input  placeholder="类别名称" clearable v-model="searchInfo.categoryName"></el-input>
+          <el-input  placeholder="类别名称" clearable v-model="searchInfo.categoryName" style="width:150px"></el-input>
         </el-form-item>
         <el-form-item label="是否最终列">
-           <el-select clearable v-model="searchInfo.last" placeholder="请选择">
+           <el-select clearable  v-model="searchInfo.last" placeholder="请选择" style="width:100px">
             <el-option
               v-for="item in lastList"
               :key="item.index"
@@ -264,6 +267,14 @@
         const index = children.findIndex(d => d.id === data.id);
         children.splice(index, 1);
       },
+      showCategoryDetail(data,data2,data3){
+        let lable=data.label;
+        this.searchInfo.categoryName=lable;
+        this.getCategoryPageInfo();
+        console.log(data);
+        console.log(data2);
+        console.log(data3)
+      }
     },
     mounted(){
       this.getCategoryPageInfo();
