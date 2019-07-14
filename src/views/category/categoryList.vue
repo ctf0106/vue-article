@@ -184,7 +184,18 @@
         this.getCategoryPageInfo();
       },
       handleEdit(val){
-        
+        this.$confirm('是否要进行修改操作?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+         this.$router.push({name:"editCategory",query:{categoryId:val}})
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消编辑'
+          });          
+        });
       },
       handleDelete(val){
         this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {

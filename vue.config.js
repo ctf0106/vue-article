@@ -62,8 +62,8 @@ module.exports = {
         proxy: {
             // proxy all requests starting with /api to jsonplaceholder
             '/api': {
-              target: 'http://192.168.2.30:8080',   //代理接口
-              // target: 'http://192.168.199.226:8080',   //代理接口
+              // target: 'http://192.168.2.30:8080',   //代理接口
+              target: 'http://192.168.199.226:8080',   //代理接口
               changeOrigin: true,
               pathRewrite: {
                 '^/api': '/'    //代理的路径
