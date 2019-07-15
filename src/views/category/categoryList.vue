@@ -107,34 +107,15 @@
 </template>
 
 <script>
-	import {getCategoryList,getCategoryTree} from '@/api/api'
+	import {getCategoryList,getCategoryTree,deleteCategoryById} from '@/api/api'
   export default {
     data() {
-      const data = [{
-        id: 1,
-        label: '一级 1',
-        children: [{
-          id: 4,
-          label: '二级 1-1',
-          children: [{
-            id: 9,
-            label: '三级 1-1-1'
-          }]
-        }]
-      }, {
-        id: 2,
-        label: '一级 2',
-        children: [{
-          id: 5,
-          label: '二级 2-1'
-        }]
-      }];
       return {
         categoryPageInfo:{
           total:0,
         },//类目列表
         categoryList:[],
-         data: JSON.parse(JSON.stringify(data)),
+        data: [],
         lastList:[
           { 
             index:0,
@@ -277,6 +258,7 @@
         const children = parent.data.children || parent.data;
         const index = children.findIndex(d => d.id === data.id);
         children.splice(index, 1);
+        this.deleteCategoryById(data.id);
       },
       showCategoryDetail(data,data2,data3){
         let lable=data.label;
@@ -285,8 +267,20 @@
         console.log(data);
         console.log(data2);
         console.log(data3)
-      }
-    },
+      },
+      async deleteCategoryById(categoryId){
+        let data={
+          categoryId:categoryId
+        }
+        let result= await deleteCategoryById(data);
+        if(result.data!=null){
+          this.$message({
+            type: 'success',
+            message: '删除成功'
+          });  
+        }
+     },
+  },
     mounted(){
       this.getCategoryPageInfo();
       this.getCategoryTree();
