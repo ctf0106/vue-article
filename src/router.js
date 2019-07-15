@@ -33,14 +33,12 @@ export default new Router({
         {
             path: '/categoryList',
             name: 'categoryList',
-            component: () =>
-                import('./views/category/categoryList.vue')
-        },
-        {
-            path: '/editCategory',
-            name: 'editCategory',
-            component: () =>
-                import('./views/category/editCategory.vue')
+            component: () =>import('./views/category/categoryList.vue'),
+            children:[{
+                path: 'categoryList/editCategory',
+                name: 'editCategory',
+                component: () =>import('./views/category/editCategory.vue')
+            }]
         },
         {
             path:'/modifyPerson',

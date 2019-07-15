@@ -1,19 +1,19 @@
 <template>
     <div class="container">
       <el-form ref="form" :model="category" label-width="80px" show-word-limit maxlength="20">
-        <el-form-item label="文章标题" >
+        <el-form-item label="类目名称" >
           <el-input v-model="category.categoryName"  style="width:350px;"></el-input>
         </el-form-item>
-        <el-form-item label="文章类别">
-          <el-select v-model="category.categoryId"  placeholder="请选择活动区域" value-key="categoryId">
-             <el-option
-              v-for="category in categoryAllList"
-              :key="category.categoryId"
-              :value="category.categoryId"
-              :label="category.categoryName"
-            >
-            </el-option>
-          </el-select>
+        <el-form-item label="最终列表">
+         <el-switch
+          v-model="category.last"
+          active-text="是"
+          change=lastChange
+          inactive-text="否">
+        </el-switch>
+        </el-form-item>
+        <el-form-item label="路径" >
+          <el-input v-model="category.categoryPath"  style="width:350px;"></el-input>
         </el-form-item>
         <el-form-item label="关键词" >
           <el-input v-model="category.keywords"  style="width:350px;"></el-input>
@@ -22,7 +22,7 @@
           <el-input v-model="category.description"  style="width:350px;"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onSubmit">立即创建</el-button>
+          <el-button type="primary" @click="onSubmit">更新</el-button>
           <el-button>取消</el-button>
         </el-form-item>
       </el-form>
@@ -48,7 +48,7 @@ export default {
 
   methods: {
     
-    //获取文章详情
+    //获取类目
     async getCategoryDetaiById(){
        let data={
          categoryId:this.category.categoryId,
@@ -64,20 +64,32 @@ export default {
       let result= await saveOrUpdateCategory(data);
       if(result.data!=null){
         if(result.data.code==200){
-          this.$router.push({name:"categoryList"})
+          
         }
       }
     },
+    lastChange(){
+      
+    }
   },
   created(){
+    
+  },
+  mounted(){
     let categoryId=this.$route.query.categoryId
     if(categoryId!=null && categoryId!="" && categoryId!=undefined){
       this.category.categoryId=categoryId;
       this.getCategoryDetaiById();
     }
   },
-  mounted(){
-
+  watch:{
+    '$route' (to,from) {
+       let categoryId=this.$route.query.categoryId
+      if(categoryId!=null && categoryId!="" && categoryId!=undefined){
+        this.category.categoryId=categoryId;
+        this.getCategoryDetaiById();
+      }
+    }
   }
 };
 </script> 

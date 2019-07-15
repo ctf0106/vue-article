@@ -6,8 +6,6 @@ export const login = data =>fetch("post", "", "/admin/login/on", data);
 
 //查询文章列表
 export const getArticleList = data =>fetch("post", "", "/admin/article/getArticleList", data);
-//查询类目列表
-export const getCategoryList = data =>fetch("post", "", "/admin/category/getCategoryList", data);
 
 //删除文章
 export const deleteArticleById=data=>fetch("post","","/admin/article/deleteArticleById",data);
@@ -27,6 +25,9 @@ export const getCategoryTree = data =>fetch("post", "", "/admin/category/getCate
 //删除类目
 export const deleteCategoryById = data =>fetch("post", "", "/admin/category/deleteCategoryById", data);
 
+//查询类目详情
+export const getCategoryDetailById = data =>fetch("post", "", "/admin/category/getCategoryDetailById", data);
+
 //个人信息
 export const getOneUser = data =>fetch("get", "", "/admin/user/getOneUser", data);
 //保存或更新个人信息
@@ -41,4 +42,7 @@ export const saveOrUpdateSite = data =>fetch("post", "", "/admin/site/saveOrUpda
 
 //获取类目详情
 export const getCategoryDetaiById = data =>fetch("post", "", "/admin/category/getCategoryDetaiById", data);
+
+//保存或更新类目
+export const saveOrUpdateCategory = data =>fetch("post", "", "/admin/category/saveOrUpdateCategory", data);
 
