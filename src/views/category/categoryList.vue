@@ -22,7 +22,7 @@
               size="mini"
               style="margin-left:5px;"
               @click="() => edit(data)">
-              <i class="el-icon-circle-plus-outline"></i>
+              <i class="el-icon-edit"></i>
             </el-button>
 
             <el-button
