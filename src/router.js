@@ -35,7 +35,7 @@ export default new Router({
             name: 'categoryList',
             component: () =>import('./views/category/categoryList.vue'),
             children:[{
-                path: 'categoryList/editCategory',
+                path: '/editCategory',
                 name: 'editCategory',
                 component: () =>import('./views/category/editCategory.vue')
             }]

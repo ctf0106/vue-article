@@ -1,12 +1,11 @@
 <template>
   <div class="app-container">
     <div style="float:left;width:220px;">
+       <el-button size="mini" @click="addCategoryTop">添加顶级栏目</el-button>
       <el-tree
         :data="data"
         node-key="id"
         default-expand-all
-        :expand-on-click-node="false"
-        @node-click="editCategory"
         >
         <span class="custom-tree-node" slot-scope="{ node, data }">
           <i class="el-icon-folder"></i>&nbsp;<span>{{ node.label }}</span>
@@ -14,9 +13,18 @@
             <el-button
               type="text"
               size="mini"
+              style="margin-left:5px;"
               @click="() => append(data)">
               <i class="el-icon-circle-plus-outline"></i>
             </el-button>
+            <el-button
+              type="text"
+              size="mini"
+              style="margin-left:5px;"
+              @click="() => edit(data)">
+              <i class="el-icon-circle-plus-outline"></i>
+            </el-button>
+
             <el-button
               type="text"
               size="mini"
@@ -53,11 +61,7 @@
       }
      },
       append(data) {
-        const newChild = { id:null, label: '新增类别', children: [] };
-        if (!data.children) {
-          this.$set(data, 'children', []);
-        }
-        data.children.push(newChild);
+       this.$router.push({name:"editCategory",query:{type:'add',categoryId:data.id,categoryName:data.label}})
       },
 
       remove(node, data) {
@@ -67,9 +71,9 @@
         children.splice(index, 1);
         this.deleteCategoryById(data.id);
       },
-      editCategory(data,data2,data3){
+      edit(data){
         let categoryId=data.id;
-        this.$router.push({name:"editCategory",query:{categoryId:categoryId}})
+        this.$router.push({name:"editCategory",query:{type:'update',categoryId:categoryId}})
       },
       async deleteCategoryById(categoryId){
         let data={
@@ -83,6 +87,9 @@
           });  
         }
      },
+     addCategoryTop(){
+       this.$router.push({name:"editCategory",query:{type:'top'}})
+     }
   },
     mounted(){
       this.getCategoryTree();
