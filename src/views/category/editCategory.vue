@@ -81,7 +81,10 @@ export default {
       let result= await saveOrUpdateCategory(data);
       if(result.data!=null){
         if(result.data.code==200){
-          
+          this.$message({
+            type: 'success',
+            message: '操作成功！'
+          });  
         }
       }
     },
