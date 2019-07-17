@@ -46,3 +46,6 @@ export const getCategoryDetaiById = data =>fetch("post", "", "/admin/category/ge
 //保存或更新类目
 export const saveOrUpdateCategory = data =>fetch("post", "", "/admin/category/saveOrUpdateCategory", data);
 
+
+//获取拼音
+export const getPinYin = data =>fetch("post", "", "/admin/category/getPinYin", data);

@@ -3,6 +3,7 @@
       <el-form ref="form" :model="category" label-width="80px" show-word-limit maxlength="20">
         <el-form-item label="类目名称" >
           <el-input v-model="category.categoryName"  style="width:350px;"></el-input>
+          <el-button @click="createPath">生成路径</el-button>
         </el-form-item>
         <el-form-item label="最终列表">
         <el-select v-model="category.last"  filterable clearable placeholder="请选择">
@@ -37,7 +38,8 @@
 </template>
 <script>
 
-import {getCategoryDetaiById,saveOrUpdateCategory} from '@/api/api'
+import {getCategoryDetaiById,saveOrUpdateCategory,getPinYin} from '@/api/api'
+import { constants } from 'crypto';
 export default {
   data() {
     return {
@@ -50,6 +52,7 @@ export default {
         parentName:null,
         parentId:null,
         last:null,
+        categoryPath:null,
       },
       categoryAllList:[],
       lastList: [{
@@ -120,6 +123,17 @@ export default {
         }
       }
     },
+    async createPath(){
+      console.log(this.category.categoryName);
+      let data={
+         categoryName:this.category.categoryName
+       }
+      let result = await getPinYin(data);
+      if(result.data!=null){
+        let categoryPath=result.data.data;
+        this.category.categoryPath=categoryPath;        
+      }
+    }
 
   },
   created(){
