@@ -5,12 +5,11 @@
           <el-input v-model="category.categoryName"  style="width:350px;"></el-input>
         </el-form-item>
         <el-form-item label="最终列表">
-        <el-select v-model="category.last" placeholder="请选择">
-          <el-option
-            v-for="item in lastList"
-            :key="item.value"
-            :label="item.value"
-            :value="item.value">
+        <el-select v-model="category.last"  filterable clearable placeholder="请选择">
+          <el-option v-for="(item,index) in lastList" 
+          :key="index" 
+          :label="item.label" 
+          :value="item.value">
           </el-option>
         </el-select>
         </el-form-item>
@@ -50,6 +49,7 @@ export default {
         description:null,
         parentName:null,
         parentId:null,
+        last:null,
       },
       categoryAllList:[],
       lastList: [{
@@ -74,7 +74,9 @@ export default {
       if(result.data!=null){
         let data=result.data.data;
         this.category=data;        
-      } 
+      }
+      //知识点
+      this.category.last = String(this.category.last) 
     },
     async onSubmit() {
       let data=this.category;
@@ -117,7 +119,8 @@ export default {
           this.getCategoryDetaiById();
         }
       }
-    }
+    },
+
   },
   created(){
     
