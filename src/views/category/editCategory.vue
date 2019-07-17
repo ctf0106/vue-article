@@ -88,14 +88,7 @@ export default {
         }
       }
     },
-    lastChange(){
-      
-    }
-  },
-  created(){
-    
-  },
-  mounted(){
+    loadData(){
       let type=this.$route.query.type;
       if(type=='top'){
         this.category={
@@ -106,22 +99,6 @@ export default {
           description:null,
         }
       }else if(type=="add"){
-        let categoryId=this.$route.query.categoryId;
-        let parentName=this.$route.query.categoryName;
-        this.category.parentId=categoryId;
-        this.category.parentName=parentName;
-      }else if(type=='update'){
-        let categoryId=this.$route.query.categoryId
-        if(categoryId!=null && categoryId!="" && categoryId!=undefined){
-          this.category.categoryId=categoryId;
-          this.getCategoryDetaiById();
-        }
-      }
-  },
-  watch:{
-    '$route' (to,from) {
-       let type=this.$route.query.type;
-      if(type=='top'){
         this.category={
           categoryId:null,
           title:null,
@@ -129,7 +106,6 @@ export default {
           keywords:null,
           description:null,
         }
-      }else if(type=="add"){
         let categoryId=this.$route.query.categoryId;
         let parentName=this.$route.query.categoryName;
         this.category.parentId=categoryId;
@@ -141,7 +117,17 @@ export default {
           this.getCategoryDetaiById();
         }
       }
-      
+    }
+  },
+  created(){
+    
+  },
+  mounted(){
+      this.loadData();
+  },
+  watch:{
+    '$route' (to,from) {
+       this.loadData()
     }
   }
 };
