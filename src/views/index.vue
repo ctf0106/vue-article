@@ -1,13 +1,11 @@
 <template>
-    <el-container direction="horizontal" style="height:100%;min-height:100vh">
-        <el-row  style="background-color:#545c64;">
-          <el-aside width="200px">
-              <div style="color:#FFFFFF;height:56px;text-align:center;line-height:56px;">内容管理系统</div>
-              <el-menu router  background-color="#545c64" style="border-right:0px;" text-color="#fff" active-text-color="#ffd04b">
-                <nav-menu :navMenus="menuData"></nav-menu>
-              </el-menu>
-          </el-aside>
-        </el-row>
+    <el-container direction="horizontal" style="min-height:100vh">
+        <el-aside width="200px" style="background-color:#545c64;" >
+            <el-menu router background-color="#545c64" style="border-right:0px;" text-color="#fff" active-text-color="#ffd04b">
+              <nav-menu :navMenus="menuData"></nav-menu>
+            </el-menu>
+        </el-aside>
+
         <el-container>
             <el-header style="text-align:right;font-size:12px;height:50px;background:#E8E7E3;">
               <el-dropdown>
@@ -97,33 +95,6 @@ export default {
                 name: "modifyPerson",
                 icon: "el-icon-edit",
                 alias: "修改个人信息",
-              }
-            }
-          ]
-        },
-        //评论管理
-         {
-          entity: {
-            id:4,
-            name: "comment",
-            icon: "el-icon-tickets",
-            alias: "评论管理"
-          },
-          childs: [
-            {
-              entity: {
-                id: 41,
-                name: "commentAuit",
-                icon: "el-icon-edit",
-                alias: "评论审核"
-              }
-            },
-            {
-              entity: {
-                id:42,
-                name: "commentManage",
-                icon: "el-icon-edit",
-                alias: "评论维护",
               }
             }
           ]

@@ -24,32 +24,12 @@
         <el-form-item label="作者" >
           <el-input v-model="articleDetail.writer"  style="width:350px;"></el-input>
         </el-form-item>
-        <el-form-item label="是否推荐">
-          <el-switch 
-          :active-value=1
-          :inactive-value=0
-          v-model="articleDetail.recommend"></el-switch>
-        </el-form-item>
         <el-form-item label="是否发布">
           <el-switch 
           :active-value=1
           :inactive-value=0
           v-model="articleDetail.publish"></el-switch>
         </el-form-item>
-        <el-form-item label="是否置顶 ">
-          <el-switch 
-          :active-value=1
-          :inactive-value=0
-          v-model="articleDetail.top"></el-switch>
-        </el-form-item>
-        <!-- <el-form-item label="文章标签">
-          <el-checkbox-group v-model="form.type">
-            <el-checkbox label="java" name="type"></el-checkbox>
-            <el-checkbox label="php" name="type"></el-checkbox>
-            <el-checkbox label="linux" name="type"></el-checkbox>
-            <el-checkbox label="前端" name="type"></el-checkbox>
-          </el-checkbox-group>
-        </el-form-item> -->
         <el-form-item label="文章头图" style="width:500px;">
           <el-upload
             :action="uploadAction"

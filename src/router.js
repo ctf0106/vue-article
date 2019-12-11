@@ -4,7 +4,7 @@ import Router from 'vue-router';
 Vue.use(Router)
 
 export default new Router({
-    mode: 'hash',
+    mode: 'history',
     base: process.env.BASE_URL,
     routes: [{
         path: '/',
@@ -45,17 +45,6 @@ export default new Router({
             name:'modifyPerson',
             component:()=>
             import('./views/person/modifyPerson')
-        }
-        ,{
-            path:'/commentAuit',
-            name:'commentAuit',
-            component:()=>
-            import('./views/comment/commentAuit')
-        },{
-            path:'/commentManage',
-            name:'commentManage',
-            component:()=>
-            import('./views/comment/commentManage')
         },{
             path:'/accountManage',
             name:'accountManage',
