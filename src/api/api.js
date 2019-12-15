@@ -49,3 +49,6 @@ export const saveOrUpdateCategory = data =>fetch("post", "", "/admin/category/sa
 
 //获取拼音
 export const getPinYin = data =>fetch("post", "", "/admin/category/getPinYin", data);
+
+//获取拼音
+export const againSyncIndex = data =>fetch("post", "", "/admin/article/againSyncIndex", data);

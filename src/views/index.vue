@@ -11,12 +11,12 @@
    
     <el-container>
       <el-header class="header">
-        <el-breadcrumb separator="/" style="line-height:50px;float:left;">
+        <!-- <el-breadcrumb separator="/" style="line-height:50px;float:left;">
           <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
           <el-breadcrumb-item>活动管理</el-breadcrumb-item>
           <el-breadcrumb-item>活动列表</el-breadcrumb-item>
           <el-breadcrumb-item>活动详情</el-breadcrumb-item>
-        </el-breadcrumb>
+        </el-breadcrumb> -->
         <el-dropdown>
           <i class="el-icon-setting" style="margin-right:15px"></i>
           <el-dropdown-menu slot="dropdown">
@@ -26,7 +26,7 @@
         </el-dropdown>
         <span>曹先生</span>
       </el-header>
-      <el-tabs v-model="editableTabsValue" type="border-card" editable @edit="handleTabsEdit">
+      <!-- <el-tabs v-model="editableTabsValue" type="border-card" editable @edit="handleTabsEdit">
         <el-tab-pane
           :key="item.name"
           v-for="(item, index) in editableTabs"
@@ -39,8 +39,15 @@
               </el-main>
           </el-container>
         </el-tab-pane>
-      </el-tabs>
+      </el-tabs> -->
       
+
+      <el-container>
+              <el-main>
+                <router-view></router-view>
+              </el-main>
+      </el-container>
+
     </el-container>
   </el-container>
 </template>

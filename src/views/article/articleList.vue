@@ -3,10 +3,10 @@
     <div class="filter-container">
       <el-form :inline="true"  class="demo-form-inline">
         <el-form-item label="文章标题">
-          <el-input  placeholder="文章标题" clearable v-model="searchInfo.title"></el-input>
+          <el-input  placeholder="文章标题" size="mini" clearable v-model="searchInfo.title"></el-input>
         </el-form-item>
         <el-form-item label="文章类别">
-           <el-select clearable v-model="searchInfo.categoryId" placeholder="请选择">
+           <el-select clearable v-model="searchInfo.categoryId" size="mini" placeholder="请选择" >
             <el-option
               v-for="category in categoryAllList"
               :key="category.categoryId"
@@ -23,6 +23,7 @@
             type="date"
             placeholder="开始时间"
             value-format="yyyy-MM-dd"
+            size="mini"
             clearable
             :picker-options="pickerOptions">
           </el-date-picker>
@@ -33,13 +34,16 @@
             type="date"
             placeholder="结束时间"
             value-format="yyyy-MM-dd"
+            size="mini"
             clearable
             :picker-options="pickerOptions">
           </el-date-picker>
         </el-form-item>
-        <el-form-item>
-          <el-button type="primary"  @click="getInitList">查询</el-button>
-        </el-form-item>
+        
+        <el-button type="primary"  @click="getInitList" size="mini">查询</el-button>
+
+        <el-button type="primary"  @click="againSyncIndexBtn" size="mini">重新同步索引</el-button>
+        
       </el-form>
     </div>
     <el-table :data="articleList.list" >
@@ -82,7 +86,7 @@
 </template>
 
 <script>
-	import { getArticleList,deleteArticleById,getCategoryAllList} from '@/api/api'
+	import { getArticleList,deleteArticleById,getCategoryAllList,againSyncIndex} from '@/api/api'
   export default {
     data() {
       return {
@@ -222,6 +226,26 @@
         console.log(this.categoryAllList);
       }
      },
+    async againSyncIndexBtn(){
+
+      let result= await againSyncIndex();
+      if(result.data!=null){
+        let code=result.data.code;
+        if(code==200){
+          this.$message({
+            type: 'success',
+            message: '同步成功'
+          });  
+        }else{
+          this.$message({
+            type: 'error',
+            message: '同步失败'
+          });  
+        }
+      }
+          
+    },
+
     },
     mounted(){
       this.getArticleList();
