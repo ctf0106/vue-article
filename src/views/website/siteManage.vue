@@ -27,7 +27,7 @@
     </div>
 </template>
 <script>
-import {getOneSite,saveOrUpdateSite} from '@/api/api'
+import {getSite,saveOrUpdateSite} from '@/api/api'
 export default {
   data() {
     return {
@@ -54,10 +54,10 @@ export default {
 
    
     //获取网站详情
-    async getOneSite(){
+    async getSite(){
        let data={
        }
-      let result= await getOneSite(data);
+      let result= await getSite(data);
       if(result.data!=null){
         let data=result.data.data;
         this.site=data;
@@ -80,7 +80,7 @@ export default {
     
   },
   mounted(){
-    this.getOneSite();
+    this.getSite();
   }
 };
 </script> 

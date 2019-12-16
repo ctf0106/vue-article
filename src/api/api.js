@@ -29,12 +29,12 @@ export const deleteCategoryById = data =>fetch("post", "", "/admin/category/dele
 export const getCategoryDetailById = data =>fetch("post", "", "/admin/category/getCategoryDetailById", data);
 
 //个人信息
-export const getOneUser = data =>fetch("get", "", "/admin/user/getOneUser", data);
+export const getUser = data =>fetch("get", "", "/admin/user/getUser", data);
 //保存或更新个人信息
 export const saveOrUpdateUser = data =>fetch("post", "", "/admin/user/saveOrUpdateUser", data);
 
 //网站信息
-export const getOneSite = data =>fetch("get", "", "/admin/site/getOneSite", data);
+export const getSite = data =>fetch("get", "", "/admin/site/getSite", data);
 
 //保存或更新网站信息
 export const saveOrUpdateSite = data =>fetch("post", "", "/admin/site/saveOrUpdateSite", data);

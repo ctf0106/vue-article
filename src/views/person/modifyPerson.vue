@@ -33,7 +33,7 @@
     </div>
 </template>
 <script>
-import {getOneUser,saveOrUpdateUser} from '@/api/api'
+import {getUser,saveOrUpdateUser} from '@/api/api'
 export default {
   data() {
     return {
@@ -54,10 +54,10 @@ export default {
   methods: {
 
     //获取网站详情
-    async getOneUser(){
+    async getUser(){
        let data={
        }
-      let result= await getOneUser(data);
+      let result= await getUser(data);
       if(result.data!=null){
         let data=result.data.data;
         this.user=data;
@@ -80,7 +80,7 @@ export default {
     
   },
   mounted(){
-    this.getOneUser();
+    this.getUser();
   }
 };
 </script> 
