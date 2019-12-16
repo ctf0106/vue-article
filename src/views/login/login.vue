@@ -22,8 +22,8 @@
       return {
         logining: false,
         form: {
-          userName: 'admin',
-          password: '123456'
+          userName: null,
+          password: null
         },
         rules: {
           userName: [

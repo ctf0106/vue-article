@@ -10,7 +10,8 @@ module.exports = {
     // 输出文件目录
     // outputDir: 'D://develop//workspace//Blog//src//main//webapp//manage',
     // outputDir:'D://develop//Project//Blog//src//main//webapp//manage',
-    outputDir:'D:\\develop\\Project\\tengfeicms-boot\\src\\main\\resources\\templates\\manage',
+    // outputDir:'D:\\develop\\Project\\tengfeicms-boot\\src\\main\\resources\\templates\\manage',
+    outputDir:'D:\\develop\\idea-workspace\\tengfeicms\\src\\main\\resources\\templates\\manage\\',
     assetsDir: 'static',
     publicPath: '/manage',
     // assetsDir:'/dist/',
