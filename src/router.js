@@ -45,12 +45,8 @@ export default new Router({
             name:'modifyPerson',
             component:()=>
             import('./views/person/modifyPerson')
-        },{
-            path:'/accountManage',
-            name:'accountManage',
-            component:()=>
-            import('./views/website/accountManage')
-        },{
+        },
+        {
             path:'/siteManage',
             name:'siteManage',
             component:()=>

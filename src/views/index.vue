@@ -118,25 +118,6 @@ export default {
             }
           ]
         },
-         //个人信息管理
-         {
-          entity: {
-            id:3,
-            name: "personManage",
-            icon: "el-icon-tickets",
-            alias: "个人信息管理"
-          },
-          childs: [
-            {
-              entity: {
-                id:31,
-                name: "modifyPerson",
-                icon: "el-icon-edit",
-                alias: "修改个人信息",
-              }
-            }
-          ]
-        },
         //系统管理
         {
           entity: {
@@ -149,7 +130,7 @@ export default {
             {
               entity: {
                 id:51,
-                name: "accountManage",
+                name: "modifyPerson",
                 icon: "el-icon-phone-outline\r\n",
                 alias: "帐号管理",
                 value: "/system/menu"
