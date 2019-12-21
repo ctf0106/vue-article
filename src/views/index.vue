@@ -1,10 +1,8 @@
 <template>
   <el-container style="min-height:100vh">
-    <el-aside width="200px" style="background-color:#324157;" >
-      <el-row>
-        <el-col :span="24" style="height:50px;line-height:50px;color:#FFF;font-size:14px;padding-left:30px;"><i class="el-icon-price-tag"></i>首页</el-col>
-      </el-row>
-        <el-menu router background-color="#324157" style="border-right:0px;" text-color="#fff" active-text-color="#1890ff">
+    
+    <el-aside  v-bind:style="{width:asideWidth+'px'}" style="background-color:#324157;">
+        <el-menu router background-color="#324157" text-color="#fff" active-text-color="#1890ff" :collapse="isCollapse">
           <nav-menu :navMenus="menuData"></nav-menu>
         </el-menu>
     </el-aside>
@@ -17,6 +15,10 @@
           <el-breadcrumb-item>活动列表</el-breadcrumb-item>
           <el-breadcrumb-item>活动详情</el-breadcrumb-item>
         </el-breadcrumb> -->
+        <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
+          <el-radio-button :label="false">展开</el-radio-button>
+          <el-radio-button :label="true">收起</el-radio-button>
+        </el-radio-group>
         <el-dropdown>
           <i class="el-icon-setting" style="margin-right:15px"></i>
           <el-dropdown-menu slot="dropdown">
@@ -56,10 +58,13 @@
 import NavMenu from "../components/NavMenu.vue";
 export default {
   components: {
-    NavMenu: NavMenu
+    NavMenu: NavMenu,
+    asideWidht:200,
   },
   data() {
     return {
+      isCollapse: false,
+      asideWidth:200,
       editableTabsValue: '2',
         editableTabs: [{
           title: 'Tab 1',
@@ -72,7 +77,14 @@ export default {
         }],
         tabIndex: 2,
       menuData: [
-        //文章管理
+        {
+          entity: {
+            id: 1,
+            name: "/",
+            icon: "el-icon-house",
+            alias: "首页"
+          }
+        },
         {
           entity: {
             id: 1,
@@ -104,7 +116,7 @@ export default {
           entity: {
             id:2,
             name: "category",
-            icon: "el-icon-tickets",
+            icon: "el-icon-folder",
             alias: "文章类别管理"
           },
           childs: [
@@ -123,7 +135,7 @@ export default {
           entity: {
             id:5,
             name: "system",
-            icon: "el-icon-news",
+            icon: "el-icon-setting",
             alias: "系统管理"
           },
           childs: [
